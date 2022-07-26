@@ -1,0 +1,23 @@
+{
+  "name": "kintone-ui-test-library",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run tsc && node ./esbuild.js",
+    "tsc": "rm -rf out && tsc --emitDeclarationOnly"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.6.0",
+    "esbuild": "^0.14.50",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "playwright": "^1.24.0"
+  }
+}
