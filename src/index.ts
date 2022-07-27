@@ -21,6 +21,16 @@ export default class{
     await this.page.goto(url);
   }
   /**
+   * レコードデータを取得する
+   */
+   private async getRecord() {
+    const record =  await this.page.evaluate(() => {
+      const objRecord = kintone.app.record.get();
+      return objRecord.record;
+    });
+    return record;
+  }
+  /**
    * ログイン試行
    */
   async attemptLogin() {
@@ -77,5 +87,6 @@ export default class{
     await this.page.locator('button.gaia-ui-actionmenu-save').click();
     await this.page.waitForSelector('div.gaia-argoui-app-toolbar-menu');
     await this.screenShot("save");
+    return await this.getRecord();
   }
 }

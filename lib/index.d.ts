@@ -11,6 +11,10 @@ export default class {
      */
     private navigate;
     /**
+     * レコードデータを取得する
+     */
+    private getRecord;
+    /**
      * ログイン試行
      */
     attemptLogin(): Promise<void>;
@@ -34,5 +38,5 @@ export default class {
     /**
      * レコードを保存する
      */
-    saveRecordEdit(): Promise<void>;
+    saveRecordEdit(): Promise<any>;
 }
