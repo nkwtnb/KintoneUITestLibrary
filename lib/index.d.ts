@@ -3,14 +3,6 @@ export default class {
     page: Page;
     constructor(page: Page);
     /**
-     * スクリーンショット
-     */
-    private screenShot;
-    /**
-     * 指定画面への遷移
-     */
-    private navigate;
-    /**
      * レコードデータを取得する
      */
     private getRecord;
