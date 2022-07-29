@@ -7,6 +7,7 @@ Playwrightを使用したkintoneのUIテストの為のAPIをまとめたライ�
 - kintoneへのログイン
 - 指定アプリへの遷移
 - レコード作成画面への遷移
+- レコード編集画面への遷移
 - レコード詳細画面への遷移
 - レコードへの値入力
 - 編集中レコードの保存
@@ -24,6 +25,7 @@ Playwrightを使用したkintoneのUIテストの為のAPIをまとめたライ�
 __設定例__
 ```json
 {
+  // 対象の環境に合わせて、サブドメイン、ログイン情報を記載する
   "subdomain": "hogehoge",
   "authentication": {
     "username": "nkwtnb",
@@ -43,15 +45,13 @@ import KintoneUITestLibrary from "kintone-ui-test";
   const page = await browser.newPage();
   const lib = new KintoneUITestLibrary(page);
   await lib.attemptLogin();
-  await lib.gotoCreateRecord(1234);
-  // 登録したい内容をレコードオブジェクト形式で作成
-  const record = {
+  // 登録したい対象アプリID、内容を引数で渡す
+  await lib.createRecord(1234, {
     "氏名": {
       "value": "taro yamada"
     }
-  };
-  await lib.editRecord(record);
-  await lib.saveRecordEdit();
+  });
+  await lib.saveRecord();
   await browser.close();
 })();
 ```
@@ -70,15 +70,14 @@ test('submitイベントで年齢が計算される', async () => {
   const page = await context.newPage();
   const lib = new KintoneUITestLibrary(page);
   await lib.attemptLogin();
-  await lib.gotoCreateRecord(1234);
-  const record = {
+  // 登録したい対象アプリID、内容を引数で渡す
+  await lib.createRecord(1234, {
     "生年月日": {
       value: "2002-01-01"
     },
-  };
-  await lib.editRecord(record);
-  const newRecord = await lib.saveRecordEdit();
-  // 「生年月日」から計算し、「年齢」に値が設定されていること（2022年時点）
+  });
+  const newRecord = await lib.saveRecord();
+  // 「生年月日」から計算し、「年齢」に値が設定されていること（2022年時点で20歳）
   expect(newRecord["年齢"].value).toEqual("20");
   await browser.close();
 });
