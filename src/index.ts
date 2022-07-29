@@ -19,6 +19,19 @@ export default class{
     return record;
   }
   /**
+   * レコードに値を入力する
+   * @param record 
+   */
+   private async inputValueIntoRecord(record: Object) {
+    await this.page.evaluate((record: any) => {
+      const objRecord = kintone.app.record.get();      
+      for (let field in record) {
+        objRecord.record[field].value = record[field].value;
+      }
+      kintone.app.record.set(objRecord);
+    }, record);
+  } 
+  /**
    * ログイン試行
    */
   async attemptLogin() {
@@ -37,6 +50,8 @@ export default class{
   }
   /**
    * 指定レコードへ遷移する
+   * @param appId 
+   * @param record
    */
    async gotoSpecifiedRecord(appId: number, recordId: number) {
     await this.page.goto(`${CONST.URL.BASE_URL}/k/${appId}/show#record=${recordId}`);
@@ -44,32 +59,35 @@ export default class{
   }
   /**
    * レコード追加画面へ遷移する
+   * @param appId 
+   * @param record
    */
-   async gotoCreateRecord(appId: number) {
-    await this.page.goto(`${CONST.URL.BASE_URL}/k/${appId}`);
-    await this.page.locator('a[title="レコードを追加する"]').click();
+   async createRecord(appId: number, record: Object) {
+    await this.page.goto(`${CONST.URL.BASE_URL}/k/${appId}/edit`);
     await this.page.waitForSelector('div.gaia-argoui-app-edit-buttons');
-    await this.page.waitForTimeout(1000);
+    // await this.page.waitForTimeout(1000);
+    await this.inputValueIntoRecord(record);
   }
   /**
-   * レコードに値を入力する
-   * @param record 
+   * レコード編集画面へ遷移する
+   * @param appId 
+   * @param recordId 
+   * @param record
    */
-  async editRecord(record: Object) {
-    await this.page.evaluate((record: any) => {    
-      const objRecord = kintone.app.record.get();    
-      for (let field in record) {
-        objRecord.record[field].value = record[field].value;
-      }
-      kintone.app.record.set(objRecord);
-    }, record);
+   async editRecord(appId: number, recordId: number, record: Object) {
+    await this.page.goto(`${CONST.URL.BASE_URL}/k/${appId}/show#record=${recordId}&mode=edit`);
+    await this.page.waitForSelector('div.gaia-argoui-app-edit-buttons');
+    await this.inputValueIntoRecord(record);
   }
+
   /**
    * レコードを保存する
    */
-  async saveRecordEdit() {
+  async saveRecord() {
     await this.page.locator('button.gaia-ui-actionmenu-save').click();
     await this.page.waitForSelector('div.gaia-argoui-app-toolbar-menu');
+    await this.page.waitForSelector('div.gaia-argoui-app-edit-buttons', {state: "hidden"});
+    await this.page.waitForSelector('.showlayout-gaia');
     return await this.getRecord();
   }
 }

@@ -16,7 +16,7 @@ const constatnts = (() => {
   const subdomain = config.subdomain;  
   return {
     URL: {
-      BASE_URL: `https://${subdomain}.cybozu.com/`,
+      BASE_URL: `https://${subdomain}.cybozu.com`,
       LOGIN: `https://${subdomain}.cybozu.com/login`,
     },
     AUTH: {
