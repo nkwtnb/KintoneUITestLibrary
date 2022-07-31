@@ -20,6 +20,12 @@ export default class {
      */
     goToSpecifiedApp(appId: number): Promise<void>;
     /**
+     * 指定ビューへ遷移する
+     * @param appId
+     * @param viewId
+     */
+    gotoSpecifiedView(appId: number, viewId: number): Promise<void>;
+    /**
      * 指定レコードへ遷移する
      * @param appId
      * @param record

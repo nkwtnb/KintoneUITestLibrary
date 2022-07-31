@@ -49,6 +49,15 @@ export default class{
     await this.page.waitForSelector('div.gaia-argoui-app-viewtoggle');
   }
   /**
+   * 指定ビューへ遷移する
+   * @param appId 
+   * @param viewId 
+   */
+  async gotoSpecifiedView(appId: number, viewId: number) {
+    await this.page.goto(`${CONST.URL.BASE_URL}/k/${appId}/?view=${viewId}`);
+    await this.page.waitForSelector('div.contents-gaia.app-index-contents-gaia div.box-gaia');
+  }
+  /**
    * 指定レコードへ遷移する
    * @param appId 
    * @param record
@@ -79,7 +88,6 @@ export default class{
     await this.page.waitForSelector('div.gaia-argoui-app-edit-buttons');
     await this.inputValueIntoRecord(record);
   }
-
   /**
    * レコードを保存する
    */
