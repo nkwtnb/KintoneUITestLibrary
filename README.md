@@ -22,7 +22,7 @@ Playwrightを使用したkintoneのUIテストの為のAPIをまとめたライ�
 - Playwright >= 1.24.0
 
 ## Configuration
-### 認証に必要な情報をconfig.jsonに記載します。
+### 各設定をconfig.jsonに記載します。
 __設定例__
 ```json
 {
@@ -31,6 +31,11 @@ __設定例__
   "authentication": {
     "username": "nkwtnb",
     "password": "strongpassword"
+  },
+  // テスト用の対象アプリ、対象ビューのIDを記載する
+  "test": {
+    "appId": 4256,
+    "viewId": 20
   }
 }
 ```
